@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/startCallButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Call" />
+
+    <Button
+        android:id="@+id/endCallButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Call" />
+
+    <Button
+        android:id="@+id/toggleMuteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Toggle Mute" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Status: Idle"
+        android:textSize="18sp" />
+
+</LinearLayout>
