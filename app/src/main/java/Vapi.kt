@@ -34,7 +34,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-class Vapi(
+public class Vapi(
     private val context: Context,
     private val lifecycle: Lifecycle,
     private val configuration: Configuration
