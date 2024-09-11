@@ -5,7 +5,7 @@
 
     <groupId>ai.vapi.android</groupId>
     <artifactId>vapi</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Vapi</name>
@@ -41,7 +41,6 @@
 
     <dependencies>
         <!-- Add your dependencies here -->
-        
     </dependencies>
 
     <build>

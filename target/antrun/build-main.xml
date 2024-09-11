@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <echo>GPG_PASSPHRASE is set to: ${env.GPG_PASSPHRASE}</echo>
+  </target>
+</project>
