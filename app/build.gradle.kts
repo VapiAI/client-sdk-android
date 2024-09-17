@@ -1,7 +1,10 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("maven-publish")
+    id("com.vanniktech.maven.publish") version "0.29.0" // Newly added plugin
     id("signing")
 }
 
@@ -50,61 +53,47 @@ dependencies {
     implementation ("co.daily:client:0.23.0")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
+mavenPublishing {
+    configure(
+        AndroidSingleVariantLibrary(
+            // the published variant
+            variant = "release",
+            // whether to publish a sources jar
+            sourcesJar = true,
+            // whether to publish a javadoc jar
+            publishJavadocJar = true,
+        )
+    )
 
-                groupId = "ai.vapi.android"
-                artifactId = "vapi"
-                version = "1.0.0"
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-                pom {
-                    name.set("Vapi")
-                    description.set("Vapi Android SDK")
-                    url.set("https://github.com/VapiAI/android")
+    // Set publication coordinates
+    coordinates("ai.vapi.android", "vapi", "1.0.5")
 
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("jordancde")
-                            name.set("Jordan Dearsley")
-                            email.set("jordan@vapi.ai")
-                        }
-                    }
-
-                    scm {
-                        connection.set("scm:git:git://github.com/VapiAI/android.git")
-                        developerConnection.set("scm:git:ssh://github.com:VapiAI/android.git")
-                        url.set("https://github.com/VapiAI/android")
-                    }
-                }
+    // Configure POM
+    pom {
+        name.set("Vapi")
+        description.set("Vapi Android SDK")
+        url.set("https://github.com/VapiAI/android")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
-
-        repositories {
-            maven {
-                name = "OSSRH"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = project.findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME")
-                    password = project.findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD")
-                }
+        developers {
+            developer {
+                id.set("jordancde")
+                name.set("Jordan Dearsley")
+                email.set("jordan@vapi.ai")
             }
+        }
+        scm {
+            connection.set("scm:git:git://github.com/VapiAI/android.git")
+            developerConnection.set("scm:git:ssh://github.com:VapiAI/android.git")
+            url.set("https://github.com/VapiAI/android")
         }
     }
-}
 
-signing {
-    val signingKey: String? = project.findProperty("signingKey") as String? ?: System.getenv("GPG_PRIVATE_KEY")
-    val signingPassword: String? = project.findProperty("signingPassword") as String? ?: System.getenv("GPG_PASSPHRASE")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications)
+    signAllPublications()  // Enables GPG signing
 }
