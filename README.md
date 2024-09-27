@@ -18,7 +18,7 @@ In your app’s build.gradle file, add the Vapi Client SDK dependency:
 ```
 dependencies {
     // ...
-    implementation 'ai.vapi.android:vapi:1.0.1'
+    implementation 'ai.vapi.android:vapi:1.0.6'
 }
 ```
 
