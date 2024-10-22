@@ -382,7 +382,8 @@ data class VapiMessageContent(
 
 data class WebCallResponse(
     val webCallUrl: URL,
-    val artifactPlan: ArtifactPlan?
+    val id: String,
+    val artifactPlan: ArtifactPlan?,
 )
 
 data class ArtifactPlan(
