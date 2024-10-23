@@ -55,7 +55,7 @@ public class Vapi(
         object CallDidEnd : Event()
         data class Transcript(val text: String) : Event()
         data class FunctionCall(val name: String, val parameters: Map<String, Any>) : Event()
-        data class SpeechUpdate(val text: String) : Event()
+        data class SpeechUpdate(val status: String, val role: String) : Event()
         data class Metadata(val data: Map<String, Any>) : Event()
         data class ConversationUpdate(val messages: List<Map<String, Any>>) : Event()
         object Hang : Event()
@@ -319,7 +319,7 @@ public class Vapi(
                 val type = object : TypeToken<Map<String, Any>>() {}.type
                 val jsonObject = gson.fromJson<Map<String, Any>>(cleanedMessage, type)
                 val event = when (jsonObject["type"] as? String) {
-                    "functionCall" -> {
+                    "function-call" -> {
                         val functionCall = jsonObject["functionCall"] as Map<*, *>
                         Event.FunctionCall(
                             functionCall["name"] as String,
@@ -328,9 +328,12 @@ public class Vapi(
                     }
                     "hang" -> Event.Hang
                     "transcript" -> Event.Transcript(jsonObject["transcript"] as String)
-                    "speechUpdate" -> Event.SpeechUpdate(jsonObject["text"] as String)
+                    "speech-update" -> Event.SpeechUpdate(
+                        status = jsonObject["status"] as String,
+                        role = jsonObject["role"] as String
+                    )
                     "metadata" -> Event.Metadata(jsonObject["data"] as Map<String, Any>)
-                    "conversationUpdate" -> Event.ConversationUpdate(jsonObject["messages"] as List<Map<String, Any>>)
+                    "conversation-update" -> Event.ConversationUpdate(jsonObject["messages"] as List<Map<String, Any>>)
                     else -> null
                 }
                 event?.let { _eventFlow.emit(it) }
