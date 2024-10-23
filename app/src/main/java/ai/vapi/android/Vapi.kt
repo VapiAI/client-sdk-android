@@ -26,6 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -108,8 +109,8 @@ public class Vapi(
         startCall(body)
     }
 
-    fun stop() {
-        coroutineScope.launch {
+    fun stop(): Job {
+        return coroutineScope.launch {
             runCatching {
                 call?.leave()
             }.onFailure { callDidFail(it) }
