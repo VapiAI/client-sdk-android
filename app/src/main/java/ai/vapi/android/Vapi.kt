@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import co.daily.CallClient
 import co.daily.CallClientListener
 import co.daily.model.*
@@ -37,7 +36,6 @@ import java.net.URL
 
 public class Vapi(
     private val context: Context,
-    private val lifecycle: Lifecycle,
     private val configuration: Configuration
 ) : CallClientListener {
 
@@ -56,6 +54,7 @@ public class Vapi(
         data class Transcript(val text: String) : Event()
         data class FunctionCall(val name: String, val parameters: Map<String, Any>) : Event()
         data class SpeechUpdate(val status: String, val role: String) : Event()
+        object UserInterrupted: Event()
         data class Metadata(val data: Map<String, Any>) : Event()
         data class ConversationUpdate(val messages: List<Map<String, Any>>) : Event()
         object Hang : Event()
@@ -140,7 +139,7 @@ public class Vapi(
 
         coroutineScope.launch {
             runCatching {
-                val call = CallClient(context, lifecycle)
+                val call = CallClient(context)
                 call.addListener(this@Vapi)
                 this@Vapi.call = call
 
@@ -332,6 +331,7 @@ public class Vapi(
                         status = jsonObject["status"] as String,
                         role = jsonObject["role"] as String
                     )
+                    "user-interrupted" -> Event.UserInterrupted
                     "metadata" -> Event.Metadata(jsonObject["data"] as Map<String, Any>)
                     "conversation-update" -> Event.ConversationUpdate(jsonObject["messages"] as List<Map<String, Any>>)
                     else -> null

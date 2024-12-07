@@ -68,7 +68,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
 
     // Set publication coordinates
-    coordinates("ai.vapi.android", "vapi", "1.0.9")
+    coordinates("ai.vapi.android", "vapi", "2.0.0")
 
     // Configure POM
     pom {
