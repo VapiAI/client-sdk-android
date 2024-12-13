@@ -59,6 +59,8 @@ public class Vapi(
         data class ConversationUpdate(val messages: List<Map<String, Any>>) : Event()
         object Hang : Event()
         data class Error(val error: String) : Event()
+        data class ParticipantJoined(val participant: Participant) : Event()
+        data class ParticipantUpdated(val participant: Participant) : Event()
     }
 
     private val gson = Gson()
@@ -283,6 +285,16 @@ public class Vapi(
                     call?.sendAppMessage("""{"message":"playable"}""", Recipient.All)
                 }.onFailure { Log.e("Vapi", "Failed to send playable message", it) }
             }
+        }
+
+        coroutineScope.launch {
+            _eventFlow.emit(Event.ParticipantUpdated(participant))
+        }
+    }
+
+    override fun onParticipantJoined(participant: Participant) {
+        coroutineScope.launch {
+            _eventFlow.emit(Event.ParticipantJoined(participant))
         }
     }
 
