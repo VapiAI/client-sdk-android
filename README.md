@@ -84,12 +84,12 @@ vapi.start(
 val assistant = mapOf(
     "model" to mapOf(
         "provider" to "openai",
-        "model" to "gpt-3.5-turbo",
+        "model" to "gpt-4",
         "systemPrompt" to "You're an assistant..."
     ),
     "voice" to mapOf(
         "provider" to "11labs",
-        "voiceId" to "burt"
+        "voiceId" to "pNInz6obpgDQGcFmaJgB"
     )
 )
 

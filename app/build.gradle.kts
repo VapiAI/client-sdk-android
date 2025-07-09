@@ -50,7 +50,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
-    api("co.daily:client:0.29.0")
+    api("co.daily:client:0.31.0")
 }
 
 mavenPublishing {
