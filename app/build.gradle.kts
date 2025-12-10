@@ -50,7 +50,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
-    api("co.daily:client:0.31.0")
+    api("co.daily:client:0.35.0")
 }
 
 mavenPublishing {
@@ -68,7 +68,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
 
     // Set publication coordinates
-    coordinates("ai.vapi.android", "vapi", "2.0.4")
+    coordinates("ai.vapi.android", "vapi", "2.0.5")
 
     // Configure POM
     pom {
@@ -95,5 +95,8 @@ mavenPublishing {
         }
     }
 
-    signAllPublications()  // Enables GPG signing
+    // Only sign when publishing to Maven Central (not for local testing)
+    if (project.hasProperty("signing.keyId")) {
+        signAllPublications()
+    }
 }

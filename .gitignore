@@ -17,3 +17,18 @@ gradle.properties
 
 secring.gpg
 .idea/
+
+# IDE
+.vscode/
+
+# Java heap dumps
+*.hprof
+
+# Build outputs
+**/build/
+
+# Vapitest standalone files (uses parent's gradle wrapper)
+vapitest/gradle/
+vapitest/gradlew
+vapitest/gradlew.bat
+vapitest/settings.gradle.kts
