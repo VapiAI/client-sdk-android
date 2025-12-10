@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         toggleMuteButton = findViewById(com.vapi.vapitest.R.id.toggleMuteButton)
         statusTextView = findViewById(com.vapi.vapitest.R.id.statusTextView)
 
-        val config = Vapi.Configuration(VAPI_PUBLIC_KEY)
-        vapi = Vapi(this, lifecycle, config)
+        val config = Vapi.Configuration(publicKey = VAPI_PUBLIC_KEY)
+        vapi = Vapi(this, config)
 
         setupButtons()
         observeVapiEvents()
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 is Vapi.Event.CallDidEnd -> updateStatus("Call ended")
                 is Vapi.Event.Transcript -> updateStatus("Transcript: ${event.text}")
                 is Vapi.Event.FunctionCall -> updateStatus("Function call: ${event.name}")
-                is Vapi.Event.SpeechUpdate -> updateStatus("Speech update: ${event.text}")
+                is Vapi.Event.SpeechUpdate -> updateStatus("Speech update: ${event.status} (${event.role})")
                 is Vapi.Event.Metadata -> updateStatus("Metadata received")
                 is Vapi.Event.ConversationUpdate -> updateStatus("Conversation updated")
                 is Vapi.Event.Hang -> updateStatus("Call hung up")
