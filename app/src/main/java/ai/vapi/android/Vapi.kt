@@ -51,7 +51,11 @@ public class Vapi(
     sealed class Event {
         object CallDidStart : Event()
         object CallDidEnd : Event()
-        data class Transcript(val text: String) : Event()
+        data class Transcript(
+            val text: String,
+            val role: String,
+            val transcriptType: String,
+        ) : Event()
         data class FunctionCall(val name: String, val parameters: Map<String, Any>) : Event()
         data class SpeechUpdate(val status: String, val role: String) : Event()
         object UserInterrupted: Event()
@@ -338,7 +342,11 @@ public class Vapi(
                         )
                     }
                     "hang" -> Event.Hang
-                    "transcript" -> Event.Transcript(jsonObject["transcript"] as String)
+                    "transcript" -> Event.Transcript(
+                        text = jsonObject["transcript"] as String,
+                        role = (jsonObject["role"] as? String) ?: "assistant",
+                        transcriptType = (jsonObject["transcriptType"] as? String) ?: "partial",
+                    )
                     "speech-update" -> Event.SpeechUpdate(
                         status = jsonObject["status"] as String,
                         role = jsonObject["role"] as String
